@@ -1,8 +1,8 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet, StatusBar, Platform } from "react-native"
-const Screen = ({ children }) => {
+import { SafeAreaView, StyleSheet } from "react-native"
+const Screen = ({ children, style }) => {
     return (
-        <SafeAreaView style={styles.screen} >
+        <SafeAreaView style={[styles.screen, { ...style }]} >
             {children}
         </SafeAreaView>
     );

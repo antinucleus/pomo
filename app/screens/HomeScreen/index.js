@@ -1,13 +1,10 @@
 import React from 'react';
-import { Text } from 'react-native';
 import Screen from '../../components/Screen';
-
+import Digits from '../../components/Digits';
 const HomeScreen = () => {
     return (
         <Screen>
-            <Text>
-                Home
-            </Text>
+            <Digits />
         </Screen>
     );
 };
