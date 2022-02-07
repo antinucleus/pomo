@@ -1,57 +1,58 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import DigitBox from './DigitBox';
+import ErrorLabel from './ErrorLabel';
 const Digits = () => {
     const nextRef = useRef();
+    const numberOfDigits = [...Array(4).keys()]
     const [id, setId] = useState(0)
     const [digits, setDigits] = useState([])
     const [sameNumberError, setSameNumberError] = useState(false)
     const [startWithZeroError, setStartWithZeroError] = useState(false)
+    const [emptyDigitError, setEmptyDigitError] = useState(false)
 
-    const handleValueChange = (e, setValue) => {
-        let regexDigit = /^[0-9]+$/
-        if (e === '' || regexDigit.test(e)) {
-            // Cannot includes same number
-            if (!digits.includes(e)) {
-                setSameNumberError(false)
-                const newValues = digits
-                newValues[id] = e
-                setDigits([...newValues])
-                setValue(e)
-                nextRef?.current?.focus()
+    const checkDigits = () => {
+        const nums = Array(10).fill(0)
+        for (let i = 0; i < digits.length; i++) {
+            for (let j = 0; j < digits.length; j++) {
+                if ((i !== j) && digits[i] === digits[j]) {
+                    nums[digits[i]] ? nums[digits[i]]++ : nums[digits[i]] = 1
+                    break
+                }
             }
-            else {
-                setSameNumberError(true)
-            }
-            // First digits cannot be zero
-            if (id === 0 && +e === 0) setStartWithZeroError(true)
-            if (id === 0 && +e !== 0) setStartWithZeroError(false)
         }
+        if (nums.every(item => item === 0)) setSameNumberError(false)
+        else setSameNumberError(true)
+        if (digits[0] && +digits[0] === 0) setStartWithZeroError(true)
+        else setStartWithZeroError(false)
+        if (digits.includes("")) setEmptyDigitError(true)
+        else setEmptyDigitError(false)
     }
     useEffect(() => {
-        console.log("digits::", digits)
+        checkDigits()
     }, [digits])
-    useEffect(() => {
-        console.log("sameNumberError::", sameNumberError)
-        console.log("startWithZeroError::", startWithZeroError)
-    }, [sameNumberError, startWithZeroError])
-    return (
-        <View>
 
+    return (
+        <View  >
             <View style={styles.digitContainer} >
                 {
-                    [0, 1, 2, 3].map(i =>
+                    numberOfDigits.map(i =>
                         <DigitBox
                             key={String(i)}
                             id={i}
                             setId={setId}
+                            digits={digits}
+                            setDigits={setDigits}
                             reff={id + 1 === i ? nextRef : null}
-                            onChangeText={handleValueChange}
+                            nextRef={nextRef}
                         />)
                 }
             </View>
-            {startWithZeroError && <Text style={{ color: "red" }} >Cannot start with zero</Text>}
-            {sameNumberError && <Text style={{ color: "red" }} >Cannot includes same numbers</Text>}
+            <View style={styles.errorContainer} >
+                {startWithZeroError && <ErrorLabel message="Cannot start with zero" />}
+                {sameNumberError && <ErrorLabel message="Cannot includes same numbers" />}
+                {emptyDigitError && <ErrorLabel message="Cannot be empty" />}
+            </View>
         </View>
     )
 };
@@ -65,6 +66,11 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         backgroundColor: "lightblue",
         paddingVertical: 10
+    },
+    errorContainer: {
+        marginTop: 50,
+        justifyContent: "center",
+        alignItems: "center"
     }
 })
 

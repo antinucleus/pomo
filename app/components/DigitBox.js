@@ -1,8 +1,17 @@
 import React, { useState } from 'react';
 import { TextInput, StyleSheet } from "react-native"
-const DigitBox = ({ id, setId, reff, onChangeText }) => {
+const DigitBox = ({ id, setId, digits, setDigits, reff, nextRef }) => {
   const [value, setValue] = useState("")
-
+  const handleValueChange = (e) => {
+    let regexDigit = /^[0-9]+$/
+    if (e === '' || regexDigit.test(e)) {
+      const newValues = digits
+      newValues[id] = e
+      setDigits([...newValues])
+      setValue(e)
+      nextRef?.current?.focus()
+    }
+  }
   return (
     <TextInput
       ref={reff}
@@ -13,7 +22,7 @@ const DigitBox = ({ id, setId, reff, onChangeText }) => {
       style={styles.textInput}
       value={value}
       onFocus={() => setId(id)}
-      onChangeText={(e) => onChangeText(e, setValue)}
+      onChangeText={handleValueChange}
     />
   )
 };
