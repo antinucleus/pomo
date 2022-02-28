@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TextInput, StyleSheet } from "react-native"
 const DigitBox = ({ id, setId, digits, setDigits, reff, nextRef }) => {
   const [value, setValue] = useState("")
@@ -12,6 +12,10 @@ const DigitBox = ({ id, setId, digits, setDigits, reff, nextRef }) => {
       nextRef?.current?.focus()
     }
   }
+  useEffect(() => {
+    digits.length === 0 && setValue("")
+    if (id === 0 && digits.length === 0) nextRef?.current?.focus()
+  }, [digits])
   return (
     <TextInput
       ref={reff}

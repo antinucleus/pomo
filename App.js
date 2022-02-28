@@ -1,9 +1,8 @@
 import React from 'react';
-import { Text } from 'react-native';
-import HomeScreen from './app/screens/HomeScreen';
+import GameScreen from './app/screens/GameScreen';
 const App = () => {
   return (
-    <HomeScreen />
+    <GameScreen />
   );
 };
 

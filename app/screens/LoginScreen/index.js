@@ -3,7 +3,7 @@ import Screen from '../../components/Screen';
 const LoginScreen = () => {
     return (
         <Screen>
-            Hello
+            LoginScreen
         </Screen>
     );
 };
