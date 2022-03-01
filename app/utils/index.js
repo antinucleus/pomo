@@ -20,10 +20,12 @@ function RandomNumberCreator(length) {
     })
 }
 
-async function delay(milliseconds) {
+function delay(milliseconds) {
     const delay = new Promise(resolve => setTimeout(resolve, milliseconds || 200))
     return delay
 }
+
+
 
 export {
     CreateInputBase,

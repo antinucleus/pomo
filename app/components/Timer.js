@@ -1,0 +1,56 @@
+import React, { useEffect, useState } from 'react'
+import { View, Text, StyleSheet } from "react-native"
+const timerColors = ["#0F0", "#FF0", "#F00"]
+
+const Timer = ({ remainingTime, setRemainingTime, timeStamp }) => {
+    const OUTERBAR_WIDTH = 300
+    const INNERBAR_PERCENTAGE = OUTERBAR_WIDTH / timeStamp
+    const barSections = timeStamp / timerColors.length
+    const innerBarWidth = remainingTime * INNERBAR_PERCENTAGE
+    const [barColor, setBarColor] = useState(timerColors[0])
+
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            remainingTime > 0 && updateRemainingTime(remainingTime)
+        }, 300);
+        return () => clearInterval(intervalId)
+    }, [remainingTime])
+
+    function changeBarColor() {
+        if (remainingTime <= barSections) setBarColor(timerColors[2])
+        if (remainingTime > barSections && remainingTime <= barSections * 2) setBarColor(timerColors[1])
+    }
+    function updateRemainingTime(remainingTime) {
+        changeBarColor()
+        let currentRemainingTime = remainingTime
+        currentRemainingTime--;
+        setRemainingTime(currentRemainingTime)
+    };
+
+
+    return (
+        <View style={styles.timerContainer} >
+            <Text>{remainingTime} </Text>
+            <View style={[styles.timerBarOuter, { width: OUTERBAR_WIDTH }]} >
+                <View style={[styles.timeBarInner, { width: innerBarWidth, backgroundColor: barColor }]} />
+            </View>
+        </View>
+    )
+}
+
+const styles = StyleSheet.create({
+    timerBarOuter: {
+        backgroundColor: "#DDD",
+        height: 10,
+        borderRadius: 10
+    },
+    timerContainer: {
+        marginVertical: 10
+    },
+    timeBarInner: {
+        height: 10,
+        borderRadius: 10
+    }
+})
+
+export default Timer

@@ -54,8 +54,7 @@ const Digits = ({ setUserNumber, onSendNumber }) => {
                             digits={digits}
                             setDigits={setDigits}
                             reff={id + 1 === i ? nextRef : null}
-                            nextRef={nextRef}
-                        />)
+                            nextRef={nextRef} />)
                 }
             </View>
             <AppButton

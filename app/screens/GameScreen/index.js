@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, FlatList } from 'react-native'
 import Digits from '../../components/Digits'
 import Prediction from '../../components/Prediction'
 import Screen from '../../components/Screen'
+import Timer from '../../components/Timer'
 import { CreateInputBase, RandomNumberCreator, delay } from "../../utils/"
 const randomNumberCreator = new RandomNumberCreator(4)
 const GameScreen = () => {
@@ -11,6 +12,8 @@ const GameScreen = () => {
     const [randomNumber, setRandomNumber] = useState([])
     const [userInputs, setUserInputs] = useState([])
     const [isWin, setIsWin] = useState(false)
+    const [remainingTime, setRemainingTime] = useState(30)
+    const timeStamp = 30
 
     const calculatePlusandMinus = () => {
         let pluses = 0, minuses = 0;
@@ -38,7 +41,8 @@ const GameScreen = () => {
     return (
         <Screen style={styles.outer} >
             {isWin && <View style={styles.winView} ><Text>Congratulations!!! {userInputs.length} </Text></View>}
-            <View style={styles.gameContainer} >
+            <Timer timeStamp={timeStamp} remainingTime={remainingTime} setRemainingTime={setRemainingTime} />
+            <View style={styles.predictionContainer} >
                 <FlatList
                     ref={refFlatList}
                     inverted
@@ -65,15 +69,13 @@ const styles = StyleSheet.create({
         height: 1,
         backgroundColor: "black"
     },
-    gameContainer: {
+    predictionContainer: {
         flex: 1,
-        width: "100%",
-        padding: 2,
-        height: "100%"
+        padding: 5,
     },
     outer: {
         alignItems: "center",
-        backgroundColor: "#FA7"
+        backgroundColor: "#FA7",
     },
     winView: {
         backgroundColor: "lightgreen",

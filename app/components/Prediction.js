@@ -1,5 +1,6 @@
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
+import ResultText from './ResultText';
 
 const Prediction = ({ prediction }) => {
     const { number, pluses, minuses } = prediction;
@@ -12,9 +13,9 @@ const Prediction = ({ prediction }) => {
                     </View>)}
             </View>
             <View style={styles.resultContainer} >
-                {pluses !== 0 && <Text> + {pluses}</Text>}
-                {minuses !== 0 && < Text> - {minuses}</Text>}
-                {pluses === 0 && minuses === 0 && <Text> 0</Text>}
+                {pluses !== 0 && <ResultText sign="+" result={pluses} />}
+                {minuses !== 0 && <ResultText sign="-" result={minuses} />}
+                {pluses === 0 && minuses === 0 && <ResultText result={0} />}
             </View>
         </View >
     )
@@ -36,22 +37,24 @@ const styles = StyleSheet.create({
         fontSize: 18
     },
     numberContainer: {
-        flexDirection: "row"
+        flexDirection: "row",
+        marginRight: 10
     },
     predictionContainer: {
         marginVertical: 5,
         flexDirection: "row",
         alignItems: "center",
+        justifyContent: "center",
         width: "100%"
     },
     resultContainer: {
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "space-evenly",
         borderWidth: 1,
         borderRadius: 35,
         width: 70,
-        marginLeft: 20,
+        borderColor: "#19F",
         height: 35
     }
 })
