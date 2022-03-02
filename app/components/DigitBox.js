@@ -19,7 +19,7 @@ const DigitBox = ({ id, setId, digits, setDigits, reff, nextRef }) => {
   return (
     <TextInput
       ref={reff}
-      returnKeyType='next'
+      returnKeyType='done'
       selectTextOnFocus
       maxLength={1}
       keyboardType='numeric'

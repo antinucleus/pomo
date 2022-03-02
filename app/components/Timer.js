@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet } from "react-native"
 const timerColors = ["#0F0", "#FF0", "#F00"]
 
-const Timer = ({ remainingTime, setRemainingTime, timeStamp }) => {
+const Timer = ({ remainingTime, setRemainingTime, timeStamp, style }) => {
     const OUTERBAR_WIDTH = 300
     const INNERBAR_PERCENTAGE = OUTERBAR_WIDTH / timeStamp
     const barSections = timeStamp / timerColors.length
@@ -12,7 +12,7 @@ const Timer = ({ remainingTime, setRemainingTime, timeStamp }) => {
     useEffect(() => {
         const intervalId = setInterval(() => {
             remainingTime > 0 && updateRemainingTime(remainingTime)
-        }, 300);
+        }, 1000);
         return () => clearInterval(intervalId)
     }, [remainingTime])
 
@@ -29,8 +29,7 @@ const Timer = ({ remainingTime, setRemainingTime, timeStamp }) => {
 
 
     return (
-        <View style={styles.timerContainer} >
-            <Text>{remainingTime} </Text>
+        <View style={{ ...style }} >
             <View style={[styles.timerBarOuter, { width: OUTERBAR_WIDTH }]} >
                 <View style={[styles.timeBarInner, { width: innerBarWidth, backgroundColor: barColor }]} />
             </View>
@@ -45,7 +44,6 @@ const styles = StyleSheet.create({
         borderRadius: 10
     },
     timerContainer: {
-        marginVertical: 10
     },
     timeBarInner: {
         height: 10,

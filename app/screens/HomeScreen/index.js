@@ -1,10 +1,13 @@
 import React from 'react';
 import Screen from '../../components/Screen';
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet } from 'react-native';
+import AppButton from '../../components/AppButton';
 const HomeScreen = () => {
     return (
-        <Screen styles={styles.homeContainer} >
-            <Text>HomeScreen</Text>
+        <Screen style={styles.homeContainer} >
+            <AppButton color="#F0F" title="Start" />
+            <AppButton color="#F3F" title="History" />
+            <AppButton color="#F6F" title="How to play" />
         </Screen>
     );
 };
