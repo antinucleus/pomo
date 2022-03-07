@@ -106,6 +106,13 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		708A227827D6A2FF005C40F5 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		7E595958F01A66848C58CA86 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -114,7 +121,6 @@
 				9A21C79265E60EF19A0DF515 /* Pods-pomo-pomoTests.debug.xcconfig */,
 				33452BFD5290E9D413968F04 /* Pods-pomo-pomoTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -128,12 +134,14 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				708A227827D6A2FF005C40F5 /* Fonts */,
 				13B07FAE1A68108700A75B9A /* pomo */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* pomoTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				7E595958F01A66848C58CA86 /* Pods */,
+				FBBFEB0AD5404877A646A005 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -147,6 +155,13 @@
 				00E356EE1AD99517003FC87E /* pomoTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		FBBFEB0AD5404877A646A005 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
