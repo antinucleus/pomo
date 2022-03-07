@@ -1,10 +1,16 @@
 import React from 'react'
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native"
-const AppButton = ({ color, title, onPress, disabled }) => {
+import Icon from "react-native-vector-icons/Feather"
+
+const AppButton = ({ color, title, onPress, disabled, icon, iconProps }) => {
     return (
         <TouchableOpacity disabled={disabled} style={styles.buttonContainer} onPress={onPress}  >
             <View style={[styles.startButton, { backgroundColor: disabled ? '#000' : color }]} >
-                <Text style={styles.startButtonText} >{title}</Text>
+                {icon ?
+                    <Icon name={icon} {...iconProps} />
+                    :
+                    <Text style={styles.startButtonText} >{title}</Text>
+                }
             </View>
         </TouchableOpacity>
     )

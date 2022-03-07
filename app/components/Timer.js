@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet } from "react-native"
+import Icon from "react-native-vector-icons/Feather"
+
 const timerColors = ["#0F0", "#FF0", "#F00"]
 
 const Timer = ({ remainingTime, setRemainingTime, timeStamp, style }) => {
@@ -31,8 +33,11 @@ const Timer = ({ remainingTime, setRemainingTime, timeStamp, style }) => {
 
     return (
         <View style={{ ...style }} >
-            <View style={[styles.timerBarOuter, { width: OUTERBAR_WIDTH }]} >
-                <View style={[styles.timeBarInner, { width: innerBarWidth, backgroundColor: barColor }]} />
+            <View style={styles.timerContainer} >
+                <Icon name='clock' size={30} color="#FFF" />
+                <View style={[styles.timerBarOuter, { width: OUTERBAR_WIDTH }]} >
+                    <View style={[styles.timeBarInner, { width: innerBarWidth, backgroundColor: barColor }]} />
+                </View>
             </View>
         </View>
     )
@@ -42,9 +47,12 @@ const styles = StyleSheet.create({
     timerBarOuter: {
         backgroundColor: "#DDD",
         height: 10,
-        borderRadius: 10
+        borderRadius: 10,
+        marginLeft: 10
     },
     timerContainer: {
+        flexDirection: "row",
+        alignItems: "center"
     },
     timeBarInner: {
         height: 10,

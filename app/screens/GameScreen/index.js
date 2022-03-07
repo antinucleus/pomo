@@ -8,7 +8,9 @@ import Digits from '../../components/Digits'
 import Prediction from '../../components/Prediction'
 import Timer from '../../components/Timer'
 import { CreateInputBase, RandomNumberCreator, delay } from "../../utils/"
+
 const randomNumberCreator = new RandomNumberCreator(4)
+
 const GameScreen = ({ route, navigation }) => {
     const keyboardBehavior = Platform.OS === 'ios' ? 'padding' : 'height'
     const { isTimerActivated } = route?.params
@@ -77,7 +79,7 @@ const GameScreen = ({ route, navigation }) => {
                 {timeout && <TimeOutScreen />}
             </Modal>
             <View style={styles.exitButton} >
-                <AppButton onPress={() => navigation.goBack()} color="#777" title="exit" />
+                <AppButton icon="x-circle" iconProps={{ size: 30, color: "#FFF" }} onPress={() => navigation.goBack()} />
             </View>
             {isTimerActivated &&
                 <Timer
@@ -99,7 +101,7 @@ const GameScreen = ({ route, navigation }) => {
             </View>
             <View style={styles.divider} />
             <View style={styles.hintButton} >
-                <AppButton color="#0AA" title="Hint" />
+                <AppButton icon="search" iconProps={{ size: 30, color: "#F0F" }} />
             </View>
             <KeyboardAvoidingView behavior={keyboardBehavior} style={styles.digitsContainer} >
                 <Digits onSendNumber={calculatePlusandMinus} setUserNumber={setUserNumber} />
