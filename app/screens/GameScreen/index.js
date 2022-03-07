@@ -1,13 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { View, Text, StyleSheet, FlatList, KeyboardAvoidingView } from 'react-native'
+import { View, StyleSheet, FlatList, KeyboardAvoidingView, Modal, Platform } from 'react-native'
+import Screen from '../../components/Screen'
+import CongratsScreen from '../CongratsScreen'
+import TimeOutScreen from "../TimeOutScreen"
 import AppButton from '../../components/AppButton'
 import Digits from '../../components/Digits'
 import Prediction from '../../components/Prediction'
-import Screen from '../../components/Screen'
 import Timer from '../../components/Timer'
 import { CreateInputBase, RandomNumberCreator, delay } from "../../utils/"
 const randomNumberCreator = new RandomNumberCreator(4)
-const GameScreen = ({ isTimerActivated }) => {
+const GameScreen = ({ route, navigation }) => {
+    const keyboardBehavior = Platform.OS === 'ios' ? 'padding' : 'height'
+    const { isTimerActivated } = route?.params
     const refFlatList = useRef()
     const timeStamp = 30
     const [remainingTime, setRemainingTime] = useState(timeStamp)
@@ -15,10 +19,18 @@ const GameScreen = ({ isTimerActivated }) => {
     const [randomNumber, setRandomNumber] = useState([])
     const [userInputs, setUserInputs] = useState([])
     const [isWin, setIsWin] = useState(false)
+    const [showModal, setShowModal] = useState(false)
     const [timeout, setTimeout] = useState(false)
 
-
-
+    const resetAllValues = () => {
+        randomNumberCreator.createdNumber = []
+        setRemainingTime(timeStamp)
+        setUserNumber([])
+        setRandomNumber([])
+        setUserInputs([])
+        setIsWin(false)
+        setTimeout(false)
+    }
     const calculatePlusandMinus = () => {
         if (isTimerActivated) {
             setRemainingTime(timeStamp)
@@ -39,6 +51,10 @@ const GameScreen = ({ isTimerActivated }) => {
     useEffect(() => {
         randomNumberCreator.createNumber()
         setRandomNumber(randomNumberCreator.createdNumber)
+        console.log("CreatedNumber: ", randomNumberCreator.createdNumber)
+        return () => {
+            resetAllValues()
+        }
     }, [])
 
     useEffect(() => {
@@ -50,12 +66,19 @@ const GameScreen = ({ isTimerActivated }) => {
             userInputs.length > 0 && refFlatList?.current?.scrollToIndex({ index: userInputs.length - 1 }))
     }, [userInputs])
 
+    useEffect(() => {
+        if (isWin || timeout) setShowModal(true)
+    }, [isWin, timeout])
+
     return (
         <Screen style={styles.outer} >
+            <Modal visible={showModal} onRequestClose={() => setShowModal(false)} transparent animationType='slide' >
+                {isWin && <CongratsScreen totalTrials={userInputs.length} />}
+                {timeout && <TimeOutScreen />}
+            </Modal>
             <View style={styles.exitButton} >
-                <AppButton color="#777" title="exit" />
+                <AppButton onPress={() => navigation.goBack()} color="#777" title="exit" />
             </View>
-            {isWin && <View style={styles.winView} ><Text>Congratulations!!! {userInputs.length} </Text></View>}
             {isTimerActivated &&
                 <Timer
                     style={styles.timeContainer}
@@ -69,16 +92,18 @@ const GameScreen = ({ isTimerActivated }) => {
                     inverted
                     data={userInputs}
                     keyExtractor={item => userInputs.indexOf(item)}
-                    renderItem={({ item }) => <Prediction prediction={item} />} />
+                    renderItem={({ item }) => <Prediction prediction={item} />}
+                    onScrollToIndexFailed={() => delay(200).then(() =>
+                        userInputs.length > 0 && refFlatList?.current?.scrollToIndex({ index: userInputs.length - 1 }))}
+                />
             </View>
             <View style={styles.divider} />
             <View style={styles.hintButton} >
                 <AppButton color="#0AA" title="Hint" />
             </View>
-            <KeyboardAvoidingView behavior='padding' style={styles.digitsContainer} >
+            <KeyboardAvoidingView behavior={keyboardBehavior} style={styles.digitsContainer} >
                 <Digits onSendNumber={calculatePlusandMinus} setUserNumber={setUserNumber} />
             </KeyboardAvoidingView>
-
         </Screen >
     )
 }

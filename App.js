@@ -1,11 +1,13 @@
 import React from 'react';
-import GameScreen from './app/screens/GameScreen';
-import HomeScreen from "./app/screens/HomeScreen"
+import { NavigationContainer } from "@react-navigation/native"
+import AppNavigator from './app/navigation/AppNavigator';
+
 const App = () => {
   return (
-    <HomeScreen />
+    <NavigationContainer>
+      <AppNavigator />
+    </NavigationContainer>
   );
 };
-// <GameScreen isTimerActivated={true} />
 
 export default App;

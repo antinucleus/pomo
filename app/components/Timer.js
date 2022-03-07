@@ -10,6 +10,7 @@ const Timer = ({ remainingTime, setRemainingTime, timeStamp, style }) => {
     const [barColor, setBarColor] = useState(timerColors[0])
 
     useEffect(() => {
+        if (remainingTime === timeStamp) setBarColor(timerColors[0])
         const intervalId = setInterval(() => {
             remainingTime > 0 && updateRemainingTime(remainingTime)
         }, 1000);

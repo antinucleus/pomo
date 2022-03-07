@@ -5,7 +5,7 @@ function CreateInputBase(pluses, minuses, number) {
 }
 
 function RandomNumberCreator(length) {
-    const createdNumber = []
+    let createdNumber = []
     this.createNumber = function () {
         while (createdNumber.length < length) {
             let randomNumber = Math.floor(Math.random() * 10)
@@ -16,6 +16,9 @@ function RandomNumberCreator(length) {
     Object.defineProperty(this, 'createdNumber', {
         get: function () {
             return createdNumber
+        },
+        set: function (value) {
+            createdNumber = value || []
         }
     })
 }

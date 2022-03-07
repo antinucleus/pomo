@@ -11,12 +11,12 @@ const AppButton = ({ color, title, onPress, disabled }) => {
 }
 const styles = StyleSheet.create({
     buttonContainer: {
-        marginVertical: 15
+        marginVertical: 15,
     },
     startButton: {
-        width: 100,
         padding: 10,
-        borderRadius: 10
+        borderRadius: 10,
+        width: "100%"
     },
     startButtonText: {
         color: "white",

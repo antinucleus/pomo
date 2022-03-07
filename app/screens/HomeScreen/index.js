@@ -2,12 +2,20 @@ import React from 'react';
 import Screen from '../../components/Screen';
 import { StyleSheet } from 'react-native';
 import AppButton from '../../components/AppButton';
-const HomeScreen = () => {
+
+const HomeScreen = ({ navigation }) => {
     return (
         <Screen style={styles.homeContainer} >
-            <AppButton color="#F0F" title="Start" />
-            <AppButton color="#F3F" title="History" />
-            <AppButton color="#F6F" title="How to play" />
+            <AppButton
+                title="Go"
+                color="#F0F"
+                onPress={() => navigation.navigate('game', { isTimerActivated: false })}
+            />
+            <AppButton
+                title="Are You Speedy"
+                color="#F0F"
+                onPress={() => navigation.navigate('game', { isTimerActivated: true })}
+            />
         </Screen>
     );
 };
