@@ -3,6 +3,8 @@ import { StyleSheet,View } from 'react-native';
 import AppButton from './AppButton';
 import DigitBox from './DigitBox';
 import ErrorLabel from './ErrorLabel';
+import LinearGradient from 'react-native-linear-gradient';
+
 const Digits = ({ setUserNumber, onSendNumber }) => {
   const nextRef = useRef();
   const numberOfDigits = [...Array(4).keys()];
@@ -50,7 +52,7 @@ const Digits = ({ setUserNumber, onSendNumber }) => {
         {sameNumberError && <ErrorLabel message="Cannot includes same numbers" />}
         {emptyDigitError && <ErrorLabel message="Cannot be empty" />}
       </View>
-      <View style={styles.digitContainer} >
+      <LinearGradient colors={['#240046', '#3c096c', '#3c096c']} style={styles.digitContainer}>
         {
           numberOfDigits.map(i =>
             <DigitBox
@@ -62,7 +64,7 @@ const Digits = ({ setUserNumber, onSendNumber }) => {
               reff={id + 1 === i ? nextRef : null}
               nextRef={nextRef} />)
         }
-      </View>
+      </LinearGradient>
       <AppButton
         onPress={() => handleSend()}
         color="#f00"
@@ -87,14 +89,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: 'blue',
+    borderColor: '#240046',
     borderRadius: 10,
-    backgroundColor: 'lightblue',
     paddingVertical: 10,
     marginBottom:5
   },
   errorContainer: {
-    height:70,
+    height:100,
     width:'100%',
     justifyContent: 'center',
     alignItems: 'center',

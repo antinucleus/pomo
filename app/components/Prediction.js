@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 2
   },
   digitText: {
-    color: '#000',
+    color: '#fff',
     fontWeight: 'bold',
     fontSize: 18
   },

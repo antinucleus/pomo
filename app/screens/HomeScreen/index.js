@@ -46,7 +46,7 @@ const HomeScreen = ({ navigation }) => {
     setTimeout(() => {
       goButtonPosition.value=0;
       areYouSpeedyButtonPosition.value = 0;
-    }, 200);
+    }, 50);
   },[]);
 
   return (

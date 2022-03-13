@@ -7,13 +7,14 @@ import AppButton from '../../components/AppButton';
 import Digits from '../../components/Digits';
 import Prediction from '../../components/Prediction';
 import Timer from '../../components/Timer';
+import LinearGradient from 'react-native-linear-gradient';
 import { CreateInputBase, RandomNumberCreator, delay } from '../../utils/';
 
 const randomNumberCreator = new RandomNumberCreator(4);
 
 const GameScreen = ({ route, navigation }) => {
   const keyboardBehavior = Platform.OS === 'ios' ? 'padding' : 'height';
-  const keyboardVerticalOffset = Platform.OS==='android' ? -50 :0;
+  const keyboardVerticalOffset = Platform.OS==='android' ? -90 :30;
   const { isTimerActivated } = route?.params;
   const refFlatList = useRef();
   const timeStamp = 30;
@@ -21,8 +22,8 @@ const GameScreen = ({ route, navigation }) => {
   const [userNumber, setUserNumber] = useState([]);
   const [randomNumber, setRandomNumber] = useState([]);
   const [userInputs, setUserInputs] = useState([]);
-  const [isWin, setIsWin] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [isWin, setIsWin] = useState(false);
   const [timeout, setTimeout] = useState(false);
 
   const resetAllValues = () => {
@@ -74,35 +75,37 @@ const GameScreen = ({ route, navigation }) => {
   }, [isWin, timeout]);
 
   return (
-    <Screen style={styles.outer} >
-      <Modal visible={showModal} onRequestClose={() => setShowModal(false)} transparent animationType='slide' >
-        {isWin && <CongratsScreen totalTrials={userInputs.length} />}
-        {timeout && <TimeOutScreen />}
-      </Modal>
-      <View style={styles.exitButton} >
-        {isTimerActivated &&
+    <Screen >
+      <LinearGradient colors={['#023e7d', '#002855', '#001845']} style={styles.outer}>
+        <Modal visible={showModal} onRequestClose={() => setShowModal(false)} transparent animationType='slide' >
+          {isWin && <CongratsScreen totalTrials={userInputs.length} />}
+          {timeout && <TimeOutScreen />}
+        </Modal>
+        <View style={styles.exitButton} >
+          {isTimerActivated &&
                 <Timer
                   timeStamp={timeStamp}
                   remainingTime={remainingTime}
                   setRemainingTime={setRemainingTime}
                 />}
-        <AppButton icon="x-circle" iconProps={{ size: 30, color: '#FFF' }} onPress={() => navigation.goBack()} />
-      </View>
+          <AppButton icon="x-circle" iconProps={{ size: 30, color: '#FFF' }} onPress={() => navigation.goBack()} />
+        </View>
       
-      <View style={styles.predictionContainer} >
-        <FlatList
-          ref={refFlatList}
-          inverted
-          data={userInputs}
-          keyExtractor={item => userInputs.indexOf(item)}
-          renderItem={({ item }) => <Prediction prediction={item} />}
-          onScrollToIndexFailed={() => delay(200).then(() =>
-            userInputs.length > 0 && refFlatList?.current?.scrollToIndex({ index: userInputs.length - 1 }))}
-        />
-      </View>
-      <KeyboardAvoidingView keyboardVerticalOffset={keyboardVerticalOffset} behavior={keyboardBehavior} style={styles.digitsContainer} >
-        <Digits onSendNumber={calculatePlusandMinus} setUserNumber={setUserNumber} />
-      </KeyboardAvoidingView>
+        <View style={styles.predictionContainer} >
+          <FlatList
+            ref={refFlatList}
+            inverted
+            data={userInputs}
+            keyExtractor={item => userInputs.indexOf(item)}
+            renderItem={({ item }) => <Prediction prediction={item} />}
+            onScrollToIndexFailed={() => delay(200).then(() =>
+              userInputs.length > 0 && refFlatList?.current?.scrollToIndex({ index: userInputs.length - 1 }))}
+          />
+        </View>
+        <KeyboardAvoidingView keyboardVerticalOffset={keyboardVerticalOffset} behavior={keyboardBehavior} style={styles.digitsContainer} >
+          <Digits onSendNumber={calculatePlusandMinus} setUserNumber={setUserNumber} />
+        </KeyboardAvoidingView>
+      </LinearGradient>
     </Screen >
   );
 };
@@ -130,8 +133,9 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   outer: {
+    flex:1,
     alignItems: 'center',
-    backgroundColor: '#FA7',
+    // backgroundColor: '#FA7',
   },
 });
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet,Text } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
-import Animated,{useSharedValue,useAnimatedStyle,withTiming,withRepeat, withSpring, Easing} from 'react-native-reanimated';
+import Animated,{useSharedValue,useAnimatedStyle,withTiming,withRepeat, withSpring} from 'react-native-reanimated';
 const timerColors = ['#0F0', '#FF0', '#F00'];
 
 const Timer = ({ remainingTime, setRemainingTime, timeStamp, style }) => {
@@ -13,25 +13,30 @@ const Timer = ({ remainingTime, setRemainingTime, timeStamp, style }) => {
   const innerBarWidth = useSharedValue(timeStamp * INNERBAR_PERCENTAGE);
   const innerBarAnimatedStyle = useAnimatedStyle(()=>{
     return{
-      width:withTiming(innerBarWidth.value,{
-        duration:1000,
-        easing:Easing.linear
+      width:withSpring(innerBarWidth.value,{
+        damping:20
       })
     };
   });
 
   const timerHeight = useSharedValue(10);
-  const timerWidthAnimatedStyle = useAnimatedStyle(()=>{
+  const timerHeightAnimatedStyle = useAnimatedStyle(()=>{
     return {
-      height:withRepeat(withTiming(timerHeight.value,{duration:500}),3,true)
+      height:withRepeat(withTiming(timerHeight.value,{duration:400}),3,true)
     };
   });
 
   useEffect(() => {
-    if (remainingTime === timeStamp) setBarColor(timerColors[0]);
+    if (remainingTime === timeStamp) {
+      setBarColor(timerColors[0]);
+      timerHeight.value=10;
+      innerBarWidth.value= timeStamp * INNERBAR_PERCENTAGE;
+    }
+
     const intervalId = setInterval(() => {
       remainingTime > 0 && updateRemainingTime(remainingTime);
     }, 1000);
+
     return () => clearInterval(intervalId);
   }, [remainingTime]);
 
@@ -40,7 +45,9 @@ const Timer = ({ remainingTime, setRemainingTime, timeStamp, style }) => {
       setBarColor(timerColors[2]);
       timerHeight.value=30;
     }
-    if (remainingTime > barSections && remainingTime <= barSections * 2) setBarColor(timerColors[1]);
+    if (remainingTime > barSections && remainingTime <= barSections * 2) {
+      setBarColor(timerColors[1]);
+    }
   }
   function updateRemainingTime(remainingTime) {
     changeBarColor();
@@ -55,8 +62,8 @@ const Timer = ({ remainingTime, setRemainingTime, timeStamp, style }) => {
     <View style={{ ...style }} >
       <View style={styles.timerContainer} >
         <Icon name='clock' size={30} color="#FFF" />
-        <Animated.View style={[styles.timerBarOuter,timerWidthAnimatedStyle, { width: OUTERBAR_WIDTH }]} >
-          <Animated.View style={[styles.timeBarInner, innerBarAnimatedStyle,timerWidthAnimatedStyle,{backgroundColor: barColor }]} />
+        <Animated.View style={[styles.timerBarOuter,timerHeightAnimatedStyle, { width: OUTERBAR_WIDTH }]} >
+          <Animated.View style={[styles.timeBarInner, innerBarAnimatedStyle,timerHeightAnimatedStyle,{backgroundColor: barColor }]} />
         </Animated.View>
       </View>
     </View>

@@ -30,7 +30,15 @@ const ErrorLabel = ({ message }) => {
 
 const styles = StyleSheet.create({
   errorContainer:{
-    marginVertical:3
+    marginVertical:3,
+    backgroundColor:'#FFF',
+    padding:3,
+    borderTopRightRadius:10,
+    borderBottomLeftRadius:10,
+    borderRightColor:'red',
+    borderLeftColor:'red',
+    borderRightWidth:2,
+    borderLeftWidth:2,
   },
   text: {
     color: 'red'
