@@ -14,7 +14,7 @@ const randomNumberCreator = new RandomNumberCreator(4);
 
 const GameScreen = ({ route, navigation }) => {
   const keyboardBehavior = Platform.OS === 'ios' ? 'padding' : 'height';
-  const keyboardVerticalOffset = Platform.OS==='android' ? -90 :30;
+  const keyboardVerticalOffset = Platform.OS==='android' ? -90 :90;
   const { isTimerActivated } = route?.params;
   const refFlatList = useRef();
   const timeStamp = 30;
@@ -77,9 +77,9 @@ const GameScreen = ({ route, navigation }) => {
   return (
     <Screen >
       <LinearGradient colors={['#023e7d', '#002855', '#001845']} style={styles.outer}>
-        <Modal visible={showModal} onRequestClose={() => setShowModal(false)} transparent animationType='slide' >
-          {isWin && <CongratsScreen totalTrials={userInputs.length} />}
-          {timeout && <TimeOutScreen />}
+        <Modal visible={showModal} onRequestClose={() => setShowModal(false)} transparent animationType='fade' >
+          {isWin && <CongratsScreen navigation = {navigation} totalTrials={userInputs.length} />}
+          {timeout && <TimeOutScreen navigation={navigation} />}
         </Modal>
         <View style={styles.exitButton} >
           {isTimerActivated &&
@@ -135,7 +135,6 @@ const styles = StyleSheet.create({
   outer: {
     flex:1,
     alignItems: 'center',
-    // backgroundColor: '#FA7',
   },
 });
 

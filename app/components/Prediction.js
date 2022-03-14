@@ -1,7 +1,7 @@
 import React,{useEffect} from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import ResultText from './ResultText';
-import Animated,{useSharedValue,useAnimatedStyle,withSpring,withTiming,withRepeat} from 'react-native-reanimated';
+import Animated,{useSharedValue,useAnimatedStyle,withSpring} from 'react-native-reanimated';
 
 const Prediction = ({ prediction }) => {
   const { number, pluses, minuses } = prediction;
