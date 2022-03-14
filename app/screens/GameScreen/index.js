@@ -8,14 +8,26 @@ import Digits from '../../components/Digits';
 import Prediction from '../../components/Prediction';
 import Timer from '../../components/Timer';
 import LinearGradient from 'react-native-linear-gradient';
-import { CreateInputBase, RandomNumberCreator, delay } from '../../utils/';
+import { CreateInputBase, RandomNumberCreator, delay,loadSound,playSound } from '../../utils/';
+import backgroundMusic from '../../assets/backgroundmusic.mp3';
+import winSound from '../../assets/victory.mp3';
+import timeoutSound from '../../assets/timeoutsound.wav';
+import sendNumberSound from '../../assets/sendnumber.wav';
+
+const Sound = require('react-native-sound');
+Sound.setCategory('Playback');
+
+const timeoutS = loadSound(Sound,timeoutSound);
+const backgroundMusicS =loadSound(Sound,backgroundMusic);
+const victoryS = loadSound(Sound,winSound);
+const sendNumberS = loadSound(Sound,sendNumberSound);
 
 const randomNumberCreator = new RandomNumberCreator(4);
 
 const GameScreen = ({ route, navigation }) => {
   const keyboardBehavior = Platform.OS === 'ios' ? 'padding' : 'height';
   const keyboardVerticalOffset = Platform.OS==='android' ? -90 :90;
-  const { isTimerActivated } = route?.params;
+  const { isTimerActivated ,soundOn} = route?.params;
   const refFlatList = useRef();
   const timeStamp = 30;
   const [remainingTime, setRemainingTime] = useState(timeStamp);
@@ -25,7 +37,7 @@ const GameScreen = ({ route, navigation }) => {
   const [showModal, setShowModal] = useState(false);
   const [isWin, setIsWin] = useState(false);
   const [timeout, setTimeout] = useState(false);
-
+  const [goHome,setGoHome]=useState(false);
   const resetAllValues = () => {
     randomNumberCreator.createdNumber = [];
     setRemainingTime(timeStamp);
@@ -49,13 +61,32 @@ const GameScreen = ({ route, navigation }) => {
     currentUserInputs.push(input);
     setUserInputs(currentUserInputs);
     if (pluses === 4) setIsWin(true);
+    if(soundOn) playSound(sendNumberS);
   };
 
 
+  const handleExitButtonPressed=()=>{
+    navigation.goBack();
+    backgroundMusicS.stop();
+  };
+
   useEffect(() => {
+    if(soundOn){
+      sendNumberS.setVolume(1);
+      timeoutS.setVolume(1);
+      victoryS.setVolume(1);
+      backgroundMusicS.setVolume(1);
+      backgroundMusicS.setNumberOfLoops(-1);
+
+      setTimeout(() => {
+        playSound(backgroundMusicS);
+      }, 100);
+    }
+
     randomNumberCreator.createNumber();
     setRandomNumber(randomNumberCreator.createdNumber);
     console.log('CreatedNumber: ', randomNumberCreator.createdNumber);
+
     return () => {
       resetAllValues();
     };
@@ -70,25 +101,33 @@ const GameScreen = ({ route, navigation }) => {
       userInputs.length > 0 && refFlatList?.current?.scrollToIndex({ index: userInputs.length - 1 }));
   }, [userInputs]);
 
+  useEffect(()=>{
+    console.log(goHome);
+
+    if(goHome) backgroundMusicS.stop();
+  },[goHome]);
+
   useEffect(() => {
     if (isWin || timeout) setShowModal(true);
+    if(timeout&&soundOn) playSound(timeoutS);
+    if(isWin&&soundOn) playSound(victoryS);
   }, [isWin, timeout]);
 
   return (
     <Screen >
       <LinearGradient colors={['#023e7d', '#002855', '#001845']} style={styles.outer}>
         <Modal visible={showModal} onRequestClose={() => setShowModal(false)} transparent animationType='fade' >
-          {isWin && <CongratsScreen navigation = {navigation} totalTrials={userInputs.length} />}
-          {timeout && <TimeOutScreen navigation={navigation} />}
+          {isWin && <CongratsScreen sound ={backgroundMusicS}  navigation = {navigation} totalTrials={userInputs.length} />}
+          {timeout && !isWin && <TimeOutScreen sound ={backgroundMusicS}  setGoHome={setGoHome} navigation={navigation} />}
         </Modal>
-        <View style={styles.exitButton} >
+        <View style={styles.topContainer} >
           {isTimerActivated &&
                 <Timer
                   timeStamp={timeStamp}
                   remainingTime={remainingTime}
                   setRemainingTime={setRemainingTime}
                 />}
-          <AppButton icon="x-circle" iconProps={{ size: 30, color: '#FFF' }} onPress={() => navigation.goBack()} />
+          <AppButton icon="x-circle" iconProps={{ size: 30, color: '#FFF' }} onPress={handleExitButtonPressed} />
         </View>
       
         <View style={styles.predictionContainer} >
@@ -116,7 +155,7 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'center',
   },
-  exitButton: {
+  topContainer: {
     flexDirection:'row',
     alignItems:'center',
     width: '100%',

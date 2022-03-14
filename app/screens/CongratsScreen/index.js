@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Animated, {useSharedValue,useAnimatedStyle,withSpring,} from 'react-native-reanimated';
 import AppButton from '../../components/AppButton';
-const CongratsScreen = ({ navigation,totalTrials }) => {
+const CongratsScreen = ({ navigation,totalTrials,sound}) => {
 
   const totalTrialsTextPosition = useSharedValue(200);
   const totalTrialsTextAnimatedStyle = useAnimatedStyle(()=>{
@@ -26,6 +26,11 @@ const CongratsScreen = ({ navigation,totalTrials }) => {
       width:withSpring(restartButtonSize.value)
     };
   });
+
+  const handleGoHome = () => {
+    navigation.navigate('home');
+    sound.stop();
+  };
 
   useEffect(()=>{
     setTimeout(() => {
@@ -50,7 +55,7 @@ const CongratsScreen = ({ navigation,totalTrials }) => {
           </Animated.Text>
           <Text></Text>
           <Animated.View style={[restartButtonAnimatedStyle]} >
-            <AppButton icon="refresh-cw" iconProps={{size:30,color:'#000'}} onPress={()=>navigation.navigate('home')} />
+            <AppButton icon="refresh-cw" iconProps={{size:30,color:'#000'}} onPress={handleGoHome}/>
           </Animated.View>
         </LinearGradient>
       </View>

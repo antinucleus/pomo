@@ -33,12 +33,12 @@ const Digits = ({ setUserNumber, onSendNumber }) => {
     setUserNumber(digits.map(d => +d));
   };
 
+  
   const handleSend = () => {
     setDigits([]);
     onSendNumber();
     setId(-1);
   };
-
 
   useEffect(() => {
     checkDigits();

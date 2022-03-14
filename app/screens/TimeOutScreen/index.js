@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Animated, {useSharedValue,useAnimatedStyle,withSpring,} from 'react-native-reanimated';
 import AppButton from '../../components/AppButton';
-const TimeOutScreen = ({ navigation }) => {
+const TimeOutScreen = ({ navigation,sound }) => {
 
   const timeoutTextSize = useSharedValue(1);
   const timeoutTextAnimatedStyle = useAnimatedStyle(()=>{
@@ -19,6 +19,11 @@ const TimeOutScreen = ({ navigation }) => {
       width:withSpring(restartButtonSize.value)
     };
   });
+
+  const handleGoHome = () => {
+    navigation.navigate('home');
+    sound.stop();
+  };
 
   useEffect(()=>{
     setTimeout(() => {
@@ -38,7 +43,7 @@ const TimeOutScreen = ({ navigation }) => {
           </Animated.Text>
           <Text></Text>
           <Animated.View style={[restartButtonAnimatedStyle]} >
-            <AppButton icon="refresh-cw" iconProps={{size:30,color:'#000'}} onPress={()=>navigation.navigate('home')} />
+            <AppButton icon="refresh-cw" iconProps={{size:30,color:'#000'}} onPress={handleGoHome} />
           </Animated.View>
         </LinearGradient>
       </View>
