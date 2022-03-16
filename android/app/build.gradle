@@ -129,7 +129,10 @@ android {
     ndkVersion rootProject.ext.ndkVersion
 
     compileSdkVersion rootProject.ext.compileSdkVersion
-
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
     defaultConfig {
         applicationId "com.pomo"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -146,6 +149,12 @@ android {
         }
     }
     signingConfigs {
+        release {
+             storeFile file('pomokeyrelease.keystore')
+             storePassword '123456'
+             keyAlias 'pomo'
+             keyPassword '123456'
+    }
         debug {
             storeFile file('debug.keystore')
             storePassword 'android'
@@ -165,7 +174,7 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
