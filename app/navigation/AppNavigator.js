@@ -5,11 +5,11 @@ import GameScreen from '../screens/GameScreen';
 const Stack = createNativeStackNavigator();
 
 const AppNavigator = () => {
-  return (
-    <Stack.Navigator screenOptions={{ headerShown: false }} >
-      <Stack.Screen name='home' component={HomeScreen} />
-      <Stack.Screen options={{ animation: 'fade'}} name='game' component={GameScreen} />
-    </Stack.Navigator>
-  );
+    return (
+        <Stack.Navigator screenOptions={{ headerShown: false }} >
+            <Stack.Screen name='home' component={HomeScreen} />
+            <Stack.Screen options={{ animation: 'fade'}} name='game' component={GameScreen} />
+        </Stack.Navigator>
+    );
 };
 export default AppNavigator;
