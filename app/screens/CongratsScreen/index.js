@@ -1,29 +1,32 @@
-import React,{useEffect} from 'react';
+import React, { useEffect } from 'react';
 import Screen from '../../components/Screen';
 import { View, Text, StyleSheet } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import Animated, {useSharedValue,useAnimatedStyle,withSpring,} from 'react-native-reanimated';
+import Animated, { useSharedValue, useAnimatedStyle, withSpring, } from 'react-native-reanimated';
 import AppButton from '../../components/AppButton';
-const CongratsScreen = ({ navigation,totalTrials,sound}) => {
+import { useNavigation } from '@react-navigation/native';
+
+const CongratsScreen = ({ totalTrials, sound }) => {
+    const navigation = useNavigation();
 
     const totalTrialsTextPosition = useSharedValue(200);
-    const totalTrialsTextAnimatedStyle = useAnimatedStyle(()=>{
+    const totalTrialsTextAnimatedStyle = useAnimatedStyle(() => {
         return {
-            transform:[{
-                translateX:withSpring(totalTrialsTextPosition.value,{damping:5})
+            transform: [{
+                translateX: withSpring(totalTrialsTextPosition.value, { damping: 5 })
             }]
         };
     });
     const congratTextSize = useSharedValue(1);
-    const congratTextAnimatedStyle = useAnimatedStyle(()=>{
+    const congratTextAnimatedStyle = useAnimatedStyle(() => {
         return {
-            fontSize:withSpring(congratTextSize.value,{damping:7})
+            fontSize: withSpring(congratTextSize.value, { damping: 7 })
         };
     });
     const restartButtonSize = useSharedValue(0);
-    const restartButtonAnimatedStyle = useAnimatedStyle(()=>{
-        return{
-            width:withSpring(restartButtonSize.value)
+    const restartButtonAnimatedStyle = useAnimatedStyle(() => {
+        return {
+            width: withSpring(restartButtonSize.value)
         };
     });
 
@@ -32,30 +35,30 @@ const CongratsScreen = ({ navigation,totalTrials,sound}) => {
         sound.stop();
     };
 
-    useEffect(()=>{
+    useEffect(() => {
         setTimeout(() => {
-            congratTextSize.value=25;
+            congratTextSize.value = 25;
         }, 200);
-        setTimeout(()=>{
-            totalTrialsTextPosition.value=0;
-            restartButtonSize.value=50;
-        },400);
-    },[]);
+        setTimeout(() => {
+            totalTrialsTextPosition.value = 0;
+            restartButtonSize.value = 50;
+        }, 400);
+    }, []);
 
     return (
         <Screen>
-            <View  style={styles.outerView}>
-                <LinearGradient colors={['#edf2fb', '#e2eafc', '#d7e3fc']} style={styles.innerView}>
-                    <Animated.Text style={[styles.congrat,congratTextAnimatedStyle]} >
-           Congratulations
+            <View style={ styles.outerView }>
+                <LinearGradient colors={ ['#edf2fb', '#e2eafc', '#d7e3fc'] } style={ styles.innerView }>
+                    <Animated.Text style={ [styles.congrat, congratTextAnimatedStyle] } >
+                        Congratulations
                     </Animated.Text>
                     <Text></Text>
-                    <Animated.Text style={[totalTrialsTextAnimatedStyle,styles.winNumber]} >
-            You won in {totalTrials} tries
+                    <Animated.Text style={ [totalTrialsTextAnimatedStyle, styles.winNumber] } >
+                        You won in { totalTrials } tries
                     </Animated.Text>
                     <Text></Text>
-                    <Animated.View style={[restartButtonAnimatedStyle]} >
-                        <AppButton icon="refresh-cw" iconProps={{size:30,color:'#000'}} onPress={handleGoHome}/>
+                    <Animated.View style={ [restartButtonAnimatedStyle] } >
+                        <AppButton icon="refresh-cw" iconProps={ { size: 30, color: '#000' } } onPress={ handleGoHome } />
                     </Animated.View>
                 </LinearGradient>
             </View>
@@ -64,10 +67,10 @@ const CongratsScreen = ({ navigation,totalTrials,sound}) => {
 };
 
 const styles = StyleSheet.create({
-    congrat:{
-        fontStyle:'italic',
-        fontWeight:'bold',
-        color:'#000'
+    congrat: {
+        fontStyle: 'italic',
+        fontWeight: 'bold',
+        color: '#000'
     },
     outerView: {
         flex: 1,
@@ -88,8 +91,8 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 5,
     },
-    winNumber:{
-        fontSize:16
+    winNumber: {
+        fontSize: 16
     }
 });
 

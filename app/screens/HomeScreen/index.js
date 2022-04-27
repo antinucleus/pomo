@@ -1,87 +1,87 @@
-import React,{useEffect,useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import Screen from '../../components/Screen';
-import { StyleSheet,View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import AppButton from '../../components/AppButton';
-import Animated,{useSharedValue,useAnimatedStyle,withTiming,withSpring} from 'react-native-reanimated';
-import {useNavigation} from '@react-navigation/native';
+import Animated, { useSharedValue, useAnimatedStyle, withTiming, withSpring } from 'react-native-reanimated';
+import { useNavigation } from '@react-navigation/native';
 const HomeScreen = () => {
     const navigation = useNavigation();
-    const [soundOn,setSoundOn]= useState(true);
+    const [soundOn, setSoundOn] = useState(true);
     const goButtonPosition = useSharedValue(-50);
     const areYouSpeedyButtonPosition = useSharedValue(100);
     const appBackgroundColor = useSharedValue('#FFF');
 
-    const goButtonAnimatedStyle = useAnimatedStyle(()=>{
+    const goButtonAnimatedStyle = useAnimatedStyle(() => {
         return {
-            transform:[{
-                translateY:withSpring(goButtonPosition.value,{
-                    damping:5,
-                    stiffness:50,
+            transform: [{
+                translateY: withSpring(goButtonPosition.value, {
+                    damping: 5,
+                    stiffness: 50,
                 })
             }]
         };
     });
 
-    const areYouSpeedyButtonAnimatedStyle = useAnimatedStyle(()=>{
+    const areYouSpeedyButtonAnimatedStyle = useAnimatedStyle(() => {
         return {
-            transform:[{
-                translateY:withSpring(areYouSpeedyButtonPosition.value,{
-                    damping:5,
-                    stiffness:50
+            transform: [{
+                translateY: withSpring(areYouSpeedyButtonPosition.value, {
+                    damping: 5,
+                    stiffness: 50
                 })
             }]
         };
     });
 
-    const backgroundColorAnimatedStyle = useAnimatedStyle(()=>{
+    const backgroundColorAnimatedStyle = useAnimatedStyle(() => {
         return {
-            backgroundColor:withTiming(appBackgroundColor.value,{
-                duration:2500
+            backgroundColor: withTiming(appBackgroundColor.value, {
+                duration: 2500
             })
         };
     });
 
-    const handleSoundStatusChange = () => setSoundOn((prev) => !prev); // en güncel halini alıyor bu şekilde. Arada değişim olduysa bile sıkıntı olmuyor
+    const handleSoundStatusChange = () => setSoundOn((prev) => !prev);
 
     const handleGoButtonPressed = () =>
-        navigation.navigate('game', { 
+        navigation.navigate('game', {
             isTimerActivated: false,
             soundOn
         });
     const handleAreYouSpeedyButtonPressed = () =>
-        navigation.navigate('game', { 
+        navigation.navigate('game', {
             isTimerActivated: true,
             soundOn
         });
-    
 
-    useEffect(()=>{
+
+    useEffect(() => {
         appBackgroundColor.value = '#000';
         setTimeout(() => {
-            goButtonPosition.value=0;
+            goButtonPosition.value = 0;
             areYouSpeedyButtonPosition.value = 0;
         }, 50);
-    },[]);
-  
+    }, []);
+
     return (
         <Screen >
-            <Animated.View  style={[styles.homeContainer,backgroundColorAnimatedStyle]} >
-                <View style={styles.soundButton} >
-                    <AppButton onPress={handleSoundStatusChange} icon={soundOn ? 'volume-2':'volume-x'} iconProps={{size:30,color:'#fff'}} />
+            <Animated.View style={ [styles.homeContainer, backgroundColorAnimatedStyle] } >
+                <View style={ styles.soundButton } >
+                    <AppButton onPress={ handleSoundStatusChange } icon={ soundOn ? 'volume-2' : 'volume-x' } iconProps={ { size: 30, color: '#fff' } } />
                 </View>
-                <View style={styles.buttonContainer} >
-                    <Animated.View style={[styles.goButton,goButtonAnimatedStyle]} >
+                <View style={ styles.buttonContainer } >
+                    <Animated.View style={ [styles.goButton, goButtonAnimatedStyle] } >
                         <AppButton
                             title="Go"
                             color="#F0F"
-                            onPress={handleGoButtonPressed}
+                            onPress={ handleGoButtonPressed }
                         />
                     </Animated.View>
-                    <Animated.View style={areYouSpeedyButtonAnimatedStyle}  >
+                    <Animated.View style={ areYouSpeedyButtonAnimatedStyle }  >
                         <AppButton
                             title="Are You Speedy"
                             color="#F0F"
-                            onPress={handleAreYouSpeedyButtonPressed}
+                            onPress={ handleAreYouSpeedyButtonPressed }
                         />
                     </Animated.View>
                 </View>
@@ -90,23 +90,23 @@ const HomeScreen = () => {
     );
 };
 const styles = StyleSheet.create({
-    buttonContainer:{
-        flex:1,
-        justifyContent:'center',
-        alignItems:'center'
+    buttonContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     homeContainer: {
-        flex:1,
+        flex: 1,
         alignItems: 'center',
     },
-    goButton:{
-        marginBottom:10
+    goButton: {
+        marginBottom: 10
     },
-    soundButton:{
-        alignItems:'flex-end',
-        width:'100%',
-        paddingRight:10,
-        paddingTop:10
+    soundButton: {
+        alignItems: 'flex-end',
+        width: '100%',
+        paddingRight: 10,
+        paddingTop: 10
     }
 });
 
