@@ -1,4 +1,4 @@
-## Pomo Game
+## The Pomo Game
 
 ### What is that game?
 - This is a mathematical guessing game that written using react-native
@@ -32,4 +32,9 @@
 - Finally assume that you send 7402. app number includes all digits of your number and all positions of them are correct so it returns +4 and you win!.
 
 ### Demo on Ios and Android
+-In below, there are gifs but in gifs fps is low so it looks like non-optimized game or animations looks like slow. If you clone this repo and run on your machine you will see there is no problem about animations and optimization of game
 
+<div align="center">
+<img src="https://github.com/antinucleus/pomo/blob/main/demoImages/normalMode.gif" width="300" height="600"/>
+<img src="https://github.com/antinucleus/pomo/blob/main/demoImages/against-timeMode.gif" width="300" height="600"/>
+</div>
